@@ -14,23 +14,26 @@ spec:
         app: postgres-db
     spec:
       containers:
-        - name: postgres 
+        - name: postgres-con
           image: postgres:15
           ports: 
           - containerPort: 5432
             name: post-db 
-          volumeMount: 
+          volumeMounts: 
           - name: postgres-storag
             mountPath: /var/lib/postgresql/data
           env:
-            POSTGRES_DB = coordinates_db  
-            POSTGRES_USER = postgres  
-            POSTGRES_PASSWORD = postgres
-  volumeClaimTemplate:
+            - name: POSTGRES_DB
+              value: coordinates_db
+            - name: POSTGRES_USER
+              value: postgres 
+            - name: POSTGRES_PASSWORD
+              value: postgres
+  volumeClaimTemplates:
   - metadata:
       name: postgres-storag
     spec:
-      accessMode: [ "ReadWriteOnce" ]
+      accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
           storage: 1Gi
